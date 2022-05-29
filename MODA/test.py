@@ -21,25 +21,28 @@ import plotly.graph_objects as go
 
 
 def f_1(x):
-    r = x[:, 0]
-    h = x[:, 1]
-    area_cylinder = 2 * np.pi * r**2 + 2 * np.pi * r * h
+    #  surface to be minimized
+    # r1 is long one
+    r1 = x[:, 0]
+    r2 = x[:, 1]
+    h = x[:, 2]
+    perimeter = np.pi * \
+        (3 * (r1 + r2) + np.sqrt((3 * r1 + r2) * (3 * r2 + r1)))
+    area_cylinder = 2 * np.pi * r1 * r2 + perimeter * h
+    # area_cylinder = 2 * np.pi * r**2 + 2 * np.pi * r * h
     #area_icecreamcone = np.pi * r * np.sqrt( h**2 + r**2)
     return area_cylinder
 
 
 def f_2(x):
-    r = x[:, 0]
-    h = x[:, 1]
-    volume_cylinder = (np.pi) * r**2 * h
+    # volumn to be maxmized
+    r1 = x[:, 0]
+    r2 = x[:, 1]
+    h = x[:, 2]
+    volume_cylinder = (np.pi) * r1 * r2 * h
     #volume_icecreamcone = 1.0 / 3.0 * (np.pi) * r ** 2 * h
     #volume_filled_icecreamcone=1.0 /3.0 * (np.pi) * r**2 * h + 0*1/2*4.0 / 3.0 *np.pi *r**3
     return -volume_cylinder
-
-# def f_3(x):
-#    term1 = ((x[:, 0] + (2 * x[:, 1]) - 1) ** 2) / 175
-#    term2 = ((-x[:, 0] + 2* x[:, 1]) ** 2) / 17
-#    return term1 + term2 - 13
 
 
 # Note that the expected input `x` is two dimensional. It should be a 2-D numpy array.
@@ -47,10 +50,10 @@ def f_2(x):
 # ## Create Variable objects
 
 # [lower bound x1, lower bound x2], [upper  bound x1, upper bound x2]
-list_vars = variable_builder(['x', 'y'],
-                             initial_values=[0, 0],
-                             lower_bounds=[0, 0],
-                             upper_bounds=[10, 10])
+list_vars = variable_builder(['x1','x2','y'],
+                             initial_values=[0,0,0],
+                             lower_bounds=[0,0, 0],
+                             upper_bounds=[10,10, 10])
 
 
 # ## Create Objective objects
@@ -77,20 +80,19 @@ while evolver.continue_evolution():
     evolver.iterate()
 
 
-
-
 # ## Visualization of optimized decision variables and objective values using Plotly
 
 # individuals: decision variable vectors
 # solutions: points in objective space that approximate Parto front
-individuals, solutions,others = evolver.end()
+individuals, solutions, others = evolver.end()
 
 pd.DataFrame(solutions).to_csv("ParetoFront.csv")
 
 # Add a random sample to the plot
-X = random.rand(1000, 1)*(10.0)
+X1 = random.rand(1000, 1)*(10.0)
+X2 = random.rand(1000, 1)*(10.0)
 Y = random.rand(1000, 1)*(10.0)
-Z = []
+# Z = []
 
 len_data = 1000+len(solutions)
 labels = np.zeros(len_data)
@@ -106,14 +108,14 @@ print(randomsample)
 
 plt.scatter(F1randomsample, -F2randomsample)
 plt.scatter(solutions[:, 0], -solutions[:, 1])
-plt.savefig('F.png')
+plt.savefig('F_.png')
 # plt.show()
 
 # Scatterplot X1, X2
 
 plt.scatter(X, Y)
 plt.scatter(individuals[:, 0], individuals[:, 1])
-plt.savefig('XY.png')
+plt.savefig('XY_.png')
 # plt.show()
 
 s1 = solutions[:, 0]
@@ -143,12 +145,12 @@ dft = df.transpose()
 print(dft)
 
 pd.plotting.parallel_coordinates(dft, 'Label', color=["lime", "tomato"])
-plt.savefig('final_.png')
+plt.savefig('finalpri_.png')
 # plt.show()
 
 cols = ["Label", "F1", "F2", "X1", "X2"]
 
 fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
                               title="Geomertrical Shape Pareto Parallel Coorinates Plot")
-fig.savefig('final_png')
+fplt.savefig('final_.png')
 # fig.show()
