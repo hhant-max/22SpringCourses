@@ -11,12 +11,15 @@ import matplotlib
 from matplotlib import pyplot
 import random
 
-W1 = 0.1
+
 
 def objective(x):
-  f1 = 1/2 * x[0]**2 * x[1]
-  f2 = x[0]**2 + 3* x[0] * x[1]
-  return -np.abs
+    # r1 is equal to x[2], count as a variable
+    f1 = 1/2 * x[0]**2 * x[1]
+    f2 = x[0]**2 + 3 * x[0] * x[1]
+    w2 = 1-W1
+    # minmize
+    return -np.abs(f1-x[2]) * W1 + w2 * np.abs(f2-x[3])
 
 # black-box optimization software
 
@@ -31,7 +34,9 @@ def local_hillclimber(objective, bounds, n_iterations, step_size, init):
     points = list()
     for i in range(n_iterations):  # take a step
         candidate = [curr[0] + rand()*step_size[0]-step_size[0]/2.0,
-                     curr[1]+rand()*step_size[1]-step_size[1]/2.0]
+                     curr[1]+rand()*step_size[1]-step_size[1]/2.0,
+                     curr[2] + rand()*step_size[2]-step_size[2]/2.0,
+                     curr[3] + rand()*step_size[3]-step_size[3]/2.0,]
         points.append(candidate)
         print('>%d f(%s) = %.5f, %s' % (i, best, best_eval, candidate))
         # evaluate candidate point
@@ -44,11 +49,12 @@ def local_hillclimber(objective, bounds, n_iterations, step_size, init):
             curr = candidate
     return [best, best_eval, points, scores]
 
-
-bounds = asarray([[-3.0, 3.0], [-3.0, 3.0]])
-step_size = [0.4, 0.4]
-n_iterations = 100
-init = [2.4, 2.0]
+# pyrameter weight
+W1 = 0.5
+bounds = asarray([[0, 5], [0, 10],[0,250],[0,250]])
+step_size = [0.5, 0.5, 7,7]
+n_iterations = 200
+init = [2.4, 5.0,20.0,20.0]
 best, score, points, scores, = local_hillclimber(
     objective, bounds, n_iterations, step_size, init)
 
@@ -63,7 +69,7 @@ print(Y)
 fig = plt.figure(figsize=(6, 5))
 left, bottom, width, height = 0.1, 0.1, 0.8, 0.8
 ax = fig.add_axes([left, bottom, width, height])
-Z = np.sqrt(X**2 + Y**2 + X*Y)
+Z = -W1 * (1/2 * X**2 * Y) + (1-W1) * (X**2 + 3 * X * Y)
 cp = ax.contour(X, Y, Z)
 ax.clabel(cp, inline=True, fontsize=10)
 ax.set_title('Contour Plot')
@@ -71,5 +77,5 @@ ax.set_xlabel('x[0]')
 ax.set_ylabel('x[1]')
 for i in range(n_iterations):
     plt.plot(points[i][0], points[i][1], "o")
-plt.savefig('test.png')
+plt.savefig('test22.png')
 # plt.show()
