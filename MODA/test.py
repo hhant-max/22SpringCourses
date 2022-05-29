@@ -83,7 +83,7 @@ while evolver.continue_evolution():
 
 # individuals: decision variable vectors
 # solutions: points in objective space that approximate Parto front
-individuals, solutions = evolver.end()
+individuals, solutions,others = evolver.end()
 
 pd.DataFrame(solutions).to_csv("ParetoFront.csv")
 
@@ -106,13 +106,15 @@ print(randomsample)
 
 plt.scatter(F1randomsample, -F2randomsample)
 plt.scatter(solutions[:, 0], -solutions[:, 1])
-plt.show()
+plt.savefig('F.png')
+# plt.show()
 
 # Scatterplot X1, X2
 
 plt.scatter(X, Y)
 plt.scatter(individuals[:, 0], individuals[:, 1])
-plt.show()
+plt.savefig('XY.png')
+# plt.show()
 
 s1 = solutions[:, 0]
 F1 = np.concatenate((F1randomsample, s1))
@@ -141,10 +143,12 @@ dft = df.transpose()
 print(dft)
 
 pd.plotting.parallel_coordinates(dft, 'Label', color=["lime", "tomato"])
-plt.show()
+plt.savefig('final_.png')
+# plt.show()
 
 cols = ["Label", "F1", "F2", "X1", "X2"]
 
 fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
                               title="Geomertrical Shape Pareto Parallel Coorinates Plot")
-fig.show()
+fig.savefig('final_png')
+# fig.show()
