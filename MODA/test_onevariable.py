@@ -50,10 +50,10 @@ def f_2(x):
 # ## Create Variable objects
 
 # [lower bound x1, lower bound x2], [upper  bound x1, upper bound x2]
-list_vars = variable_builder(['x1','x2','y'],
-                             initial_values=[0,0,0],
-                             lower_bounds=[0,0, 0],
-                             upper_bounds=[10,10, 10])
+list_vars = variable_builder(['x1', 'x2', 'y'],
+                             initial_values=[0, 0, 0],
+                             lower_bounds=[0, 0, 0],
+                             upper_bounds=[10, 10, 10])
 
 
 # ## Create Objective objects
@@ -88,6 +88,9 @@ individuals, solutions, others = evolver.end()
 
 pd.DataFrame(solutions).to_csv("ParetoFront.csv")
 
+# --------------------------plot-----------------------
+
+
 # Add a random sample to the plot
 X1 = random.rand(1000, 1)*(10.0)
 X2 = random.rand(1000, 1)*(10.0)
@@ -99,7 +102,7 @@ labels = np.zeros(len_data)
 
 # Scatterplot F1, F2
 
-randomsample = np.hstack((X1, X2,Y))  # matrix 1000x2
+randomsample = np.hstack((X1, X2, Y))  # matrix 1000x2
 
 for i in range(1000):
     F1randomsample = f_1(randomsample)
@@ -108,15 +111,15 @@ print(randomsample)
 
 plt.scatter(F1randomsample, -F2randomsample)
 plt.scatter(solutions[:, 0], -solutions[:, 1])
-plt.savefig('F_.png')
-# plt.show()
+# plt.savefig('F2.png')
+plt.show()
 
 # Scatterplot X1, X2
 
-plt.scatter(X, Y)
+plt.scatter(X1, X2)
 plt.scatter(individuals[:, 0], individuals[:, 1])
-plt.savefig('XY_.png')
-# plt.show()
+# plt.savefig('XY_.png')
+plt.show()
 
 s1 = solutions[:, 0]
 F1 = np.concatenate((F1randomsample, s1))
@@ -127,11 +130,11 @@ F2 = np.concatenate((F2randomsample, s2))
 F2 = F2/np.max(-F2)
 
 d1 = individuals[:, 0]
-X1 = np.concatenate((X.flatten(), d1))
+X1 = np.concatenate((X1.flatten(), d1))
 X1 = X1/np.max(X1)
 
 d2 = individuals[:, 1]
-X2 = np.concatenate((Y.flatten(), d2))
+X2 = np.concatenate((X2.flatten(), d2))
 X2 = X2/np.max(X2)
 
 for i in range(1000):
@@ -145,12 +148,12 @@ dft = df.transpose()
 print(dft)
 
 pd.plotting.parallel_coordinates(dft, 'Label', color=["lime", "tomato"])
-plt.savefig('finalpri_.png')
+# plt.savefig('finalpri_.png')
 # plt.show()
 
 cols = ["Label", "F1", "F2", "X1", "X2"]
 
 fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
                               title="Geomertrical Shape Pareto Parallel Coorinates Plot")
-fplt.savefig('final_.png')
+# plt.savefig('final2.png')
 # fig.show()
