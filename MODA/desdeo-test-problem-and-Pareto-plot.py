@@ -86,7 +86,7 @@ import matplotlib.pyplot as plt
 from numpy import random
 X = random.rand(1000,1)*(10.0)
 Y = random.rand(1000,1)*(10.0)
-Z = [];
+# Z = []
 
 len_data = 1000+len(solutions)
 labels = np.zeros(len_data)
@@ -102,12 +102,14 @@ print(randomsample)
 
 plt.scatter(F1randomsample,-F2randomsample)
 plt.scatter(solutions[:,0],-solutions[:,1])
+# plt.savefig('f12.png')
 plt.show()
 
 # Scatterplot X1, X2
 
 plt.scatter(X,Y)
 plt.scatter(individuals[:,0],individuals[:,1])
+plt.savefig('xy.png')
 plt.show()
 
 s1=solutions[:,0]

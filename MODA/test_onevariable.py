@@ -17,6 +17,8 @@ from sklearn.preprocessing import MinMaxScaler
 import plotly.express as px
 import plotly.graph_objects as go
 
+np.random.seed(0)
+
 # Define Objective function
 
 
@@ -114,12 +116,14 @@ plt.scatter(solutions[:, 0], -solutions[:, 1])
 # plt.savefig('F2.png')
 plt.show()
 
+
+
 # Scatterplot X1, X2
 
 plt.scatter(X1, X2)
 plt.scatter(individuals[:, 0], individuals[:, 1])
 # plt.savefig('XY_.png')
-plt.show()
+# plt.show()
 
 s1 = solutions[:, 0]
 F1 = np.concatenate((F1randomsample, s1))
