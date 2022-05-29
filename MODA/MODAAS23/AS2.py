@@ -28,7 +28,7 @@ def f_1(x):
     r2 = x[:, 1]
     h = x[:, 2]
     perimeter = np.pi * \
-        (3 * (r1 + r2) + np.sqrt((3 * r1 + r2) * (3 * r2 + r1)))
+        (3 * (r1 + r2) - np.sqrt((3 * r1 + r2) * (3 * r2 + r1)))
     area_cylinder = 2 * np.pi * r1 * r2 + perimeter * h
 
     return area_cylinder

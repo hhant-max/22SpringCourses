@@ -79,7 +79,7 @@ while evolver.continue_evolution():
 # solutions: points in objective space that approximate Parto front
 individuals, solutions,others = evolver.end()
 
-pd.DataFrame(solutions).to_csv("ParetoFront_ori.csv")
+pd.DataFrame(solutions).to_csv("ParetoFront.csv")
 import matplotlib.pyplot as plt
 
 # Add a random sample to the plot
@@ -109,7 +109,7 @@ plt.scatter(solutions[:,0],-solutions[:,1])
 
 plt.scatter(X,Y)
 plt.scatter(individuals[:,0],individuals[:,1])
-# plt.savefig('xy.png')
+plt.savefig('xy1.png')
 # plt.show()
 
 s1=solutions[:,0]
@@ -145,4 +145,4 @@ cols = ["Label", "F1", "F2", "X1", "X2"]
 
 fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
                               title="Geomertrical Shape Pareto Parallel Coorinates Plot")
-fig.show()
+# fig.show()
