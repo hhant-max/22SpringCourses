@@ -80,69 +80,69 @@ while evolver.continue_evolution():
 individuals, solutions,others = evolver.end()
 
 pd.DataFrame(solutions).to_csv("ParetoFront_ori.csv")
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
-# # Add a random sample to the plot
-# from numpy import random
-# X = random.rand(1000,1)*(10.0)
-# Y = random.rand(1000,1)*(10.0)
-# # Z = []
+# Add a random sample to the plot
+from numpy import random
+X = random.rand(1000,1)*(10.0)
+Y = random.rand(1000,1)*(10.0)
+# Z = []
 
-# len_data = 1000+len(solutions)
-# labels = np.zeros(len_data)
+len_data = 1000+len(solutions)
+labels = np.zeros(len_data)
 
-# # Scatterplot F1, F2
+# Scatterplot F1, F2
 
-# randomsample = np.hstack((X,Y)) #matrix 1000x2
+randomsample = np.hstack((X,Y)) #matrix 1000x2
 
-# for i in range(1000):
-#   F1randomsample=f_1(randomsample)
-#   F2randomsample=f_2(randomsample)
-# print(randomsample)
+for i in range(1000):
+  F1randomsample=f_1(randomsample)
+  F2randomsample=f_2(randomsample)
+print(randomsample)
 
-# plt.scatter(F1randomsample,-F2randomsample)
-# plt.scatter(solutions[:,0],-solutions[:,1])
-# # plt.savefig('f12.png')
+plt.scatter(F1randomsample,-F2randomsample)
+plt.scatter(solutions[:,0],-solutions[:,1])
+# plt.savefig('f12.png')
 # plt.show()
 
-# # Scatterplot X1, X2
+# Scatterplot X1, X2
 
-# plt.scatter(X,Y)
-# plt.scatter(individuals[:,0],individuals[:,1])
-# # plt.savefig('xy.png')
+plt.scatter(X,Y)
+plt.scatter(individuals[:,0],individuals[:,1])
+# plt.savefig('xy.png')
 # plt.show()
 
-# s1=solutions[:,0]
-# F1=np.concatenate((F1randomsample,s1))
-# F1=F1/np.max(F1)
+s1=solutions[:,0]
+F1=np.concatenate((F1randomsample,s1))
+F1=F1/np.max(F1)
 
-# s2=solutions[:,1]
-# F2=np.concatenate((F2randomsample,s2))
-# F2=F2/np.max(-F2)
+s2=solutions[:,1]
+F2=np.concatenate((F2randomsample,s2))
+F2=F2/np.max(-F2)
 
-# d1=individuals[:,0]
-# X1=np.concatenate((X.flatten(),d1))
-# X1=X1/np.max(X1)
+d1=individuals[:,0]
+X1=np.concatenate((X.flatten(),d1))
+X1=X1/np.max(X1)
 
-# d2=individuals[:,1]
-# X2=np.concatenate((Y.flatten(),d2))
-# X2=X2/np.max(X2)
+d2=individuals[:,1]
+X2=np.concatenate((Y.flatten(),d2))
+X2=X2/np.max(X2)
 
-# for i in range(1000):
-#     labels[i]='0'
-# for i in range(1001,1000+len(d2)):
-#     labels[i]='1'
+for i in range(1000):
+    labels[i]='0'
+for i in range(1001,1000+len(d2)):
+    labels[i]='1'
 
-# data = pd.read_csv(r'ParetoFront.csv', sep=',')
-# df = pd.DataFrame([labels,F1,-F2,X1,X2],["Label", "F1", "F2", "X1", "X2"])
-# dft=df.transpose()
-# print(dft)
+data = pd.read_csv(r'ParetoFront.csv', sep=',')
+df = pd.DataFrame([labels,F1,-F2,X1,X2],["Label", "F1", "F2", "X1", "X2"])
+dft=df.transpose()
+print(dft)
 
-# pd.plotting.parallel_coordinates(dft,'Label', color=["lime", "tomato"])
+pd.plotting.parallel_coordinates(dft,'Label', color=["lime", "tomato"])
 # plt.show()
 
-# cols = ["Label", "F1", "F2", "X1", "X2"]
+cols = ["Label", "F1", "F2", "X1", "X2"]
 
-# fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
-#                               title="Geomertrical Shape Pareto Parallel Coorinates Plot")
-# fig.show()
+fig = px.parallel_coordinates(dft, color="Label", dimensions=cols,
+                              title="Geomertrical Shape Pareto Parallel Coorinates Plot")
+fig.show()
